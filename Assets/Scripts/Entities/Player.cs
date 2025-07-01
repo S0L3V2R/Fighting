@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     [SerializeField] private bool isGrounded;
 
     [SerializeField] private Collider2D movementCollider;
+
+    [SerializeField] private GameObject enemy;
     
 
     private Rigidbody2D rb;
@@ -46,7 +48,7 @@ public class Player : MonoBehaviour
 
     private action currentAction;
 
-    private IEnumerator doAction(float time)
+    private IEnumerator windupAction(float time)
     {
         actionAllowed = false;
         yield return new WaitForSeconds(time/60);
@@ -91,6 +93,16 @@ public class Player : MonoBehaviour
 
         if (transform.position.y > 0) { rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - fallSpeedDelta); }
 
+        switchSideCheck();
+        if (sideOfSight == 1)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            transform.eulerAngles = new Vector3(0, -180, 0);
+        }
+
         Debug.Log(inputs.Count+100);
 
         foreach (var input in inputs)
@@ -99,12 +111,9 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("bang");
                 currentAction = input;
-                StartCoroutine(doAction(input.a));
+                StartCoroutine(windupAction(input.a));
             }
         }
-        
-
-
     }
 
     private void LateUpdate()
@@ -116,6 +125,18 @@ public class Player : MonoBehaviour
     {
         if (transform.position.y <= 0) { return true;  }
         else { return false; }
+    }
+
+    private void switchSideCheck()
+    {
+        if (transform.position.x < enemy.transform.position.x) { sideOfSight = 1; }
+        else { sideOfSight = 0; }
+    }
+
+
+    private void flyTriggerCheck()
+    {
+
     }
 
     private List<action> GetInputs()
