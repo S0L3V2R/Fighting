@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float whichAxisLocked;
     [SerializeField] private float leftArenaBorder, rightArenaBorder;
 
+    [SerializeField] private LayerMask movementLayer;
+
     [SerializeField] private bool isGrounded;
 
     [SerializeField] private Collider2D movementCollider;
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
             this.r = r;
         }
     }
+
+    public List<action> inputs;
 
     action punch = new action(2, 1, 2);
     action moveForward = new action(0,0,0);
@@ -82,7 +86,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y);
-        List<action> inputs = GetInputs();
+        inputs = GetInputs();
 
         if (whichAxisLocked == 1 && axisX > 0) { axisX = 0; }
         if (whichAxisLocked == -1 && axisX < 0) { axisX = 0; }
@@ -176,7 +180,10 @@ public class Player : MonoBehaviour
         }
     }
 
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("kekw");
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (sideOfSight == 1)
