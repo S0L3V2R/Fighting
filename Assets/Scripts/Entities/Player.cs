@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
 
 
     [SerializeField] bool actionAllowed = true;
-    [SerializeField] float movementAllowed = 1;
     
     
     public struct action
@@ -91,8 +90,6 @@ public class Player : MonoBehaviour
 
         if (whichAxisLocked == 1 && axisX > 0) { axisX = 0; }
         if (whichAxisLocked == -1 && axisX < 0) { axisX = 0; }
-        axisX *= movementAllowed;
-        axisY *= movementAllowed;
 
         rb.velocity = new Vector2(axisX * speed, rb.velocity.y);
         if (axisY > 0) { Jump(); }
