@@ -1,16 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float speed;
+    [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float fallSpeedDelta;
+    [SerializeField] private float sideOfSight;
+    [SerializeField] private float collisionDelta;
+    [SerializeField] private float whichAxisLocked;
+    [SerializeField] private float leftArenaBorder, rightArenaBorder;
+
+    [SerializeField] private bool isGrounded;
+
+    [SerializeField] private Collider2D movementCollider;
+    
 
     private Rigidbody2D rb;
 
     private float axisX, axisY;
 
+
     [SerializeField] bool actionAllowed = true;
+    
     
     public struct action
     {
@@ -53,21 +67,30 @@ public class Player : MonoBehaviour
     }
 
     private void bam() {
-        Debug.Log("kek"); 
+        Debug.Log("kek");
     }
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        whichAxisLocked = 0;
     }
 
     private void FixedUpdate()
     {
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y);
         List<action> inputs = GetInputs();
-        rb.velocity = new Vector2(axisX * speed, 0); 
+
+        if (whichAxisLocked == 1 && axisX > 0) { axisX = 0; }
+        if (whichAxisLocked == -1 && axisX < 0) { axisX = 0; }
+
+        rb.velocity = new Vector2(axisX * speed, rb.velocity.y);
+        if (axisY > 0) { Jump(); }
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftArenaBorder, rightArenaBorder), Mathf.Clamp(transform.position.y, 1, 10000), transform.position.z);
+
         Debug.Log(inputs.Count+100);
+
         foreach (var input in inputs)
         {
             if (actionAllowed == true && input.a > 0)
@@ -80,11 +103,18 @@ public class Player : MonoBehaviour
         
     }
 
-    
+    private bool isGroundedCheck()
+    {
+        if (isGrounded == false) { rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - fallSpeedDelta); Debug.Log(rb.velocity); }
+        if (transform.position.y == 0) { return true; rb.velocity = new Vector2(rb.velocity.x, 0); }
+        else { return false; }
+    }
+
     private List<action> GetInputs()
     {
         axisX = Input.GetAxisRaw("Horizontal");
         axisY = Input.GetAxisRaw("Vertical");
+        isGrounded = isGroundedCheck();
 
         List<action> inputs = new List<action>();
 
@@ -101,11 +131,39 @@ public class Player : MonoBehaviour
         {
             inputs.Add(punch);
         }
+        
 
-        Debug.Log(axisX);
+        Debug.Log(axisX + 1000);
+        Debug.Log(axisY + 2000);
 
         return inputs;
     }
 
+    private void Jump()
+    {
+        if (isGrounded == true)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+    }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (sideOfSight == 1)
+        {
+            whichAxisLocked = 1;
+        }
+        else
+        {
+            whichAxisLocked = -1;
+        }
+        Debug.Log("workin");
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        whichAxisLocked = 0;
+    }
 
 }
