@@ -93,6 +93,10 @@ public class Player : MonoBehaviour
         {
             inputs.Add(punch);
         }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            inputs.Add(moveBackward);
+        }
         if (Input.GetKeyDown(KeyCode.K))
         {
             inputs.Add(punch);
