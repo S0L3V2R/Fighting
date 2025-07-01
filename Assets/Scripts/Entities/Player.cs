@@ -87,7 +87,9 @@ public class Player : MonoBehaviour
 
         rb.velocity = new Vector2(axisX * speed, rb.velocity.y);
         if (axisY > 0) { Jump(); }
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftArenaBorder, rightArenaBorder), Mathf.Clamp(transform.position.y, 1, 10000), transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftArenaBorder, rightArenaBorder), Mathf.Clamp(transform.position.y, 0, 10000), transform.position.z);
+
+        if (transform.position.y > 0) { rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - fallSpeedDelta); }
 
         Debug.Log(inputs.Count+100);
 
@@ -101,12 +103,18 @@ public class Player : MonoBehaviour
             }
         }
         
+
+
+    }
+
+    private void LateUpdate()
+    {
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftArenaBorder, rightArenaBorder), Mathf.Clamp(transform.position.y, 0, 10000), transform.position.z);  
     }
 
     private bool isGroundedCheck()
     {
-        if (isGrounded == false) { rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y - fallSpeedDelta); Debug.Log(rb.velocity); }
-        if (transform.position.y == 0) { return true; rb.velocity = new Vector2(rb.velocity.x, 0); }
+        if (transform.position.y <= 0) { return true;  }
         else { return false; }
     }
 
