@@ -1181,7 +1181,7 @@ MonoBehaviour:
   speed: 30
   jumpForce: 150
   fallSpeedDelta: 10
-  flyTriggerDelta: 5
+  flyTriggerDelta: 3
   sideOfSight: 1
   collisionDelta: 2
   whichAxisLocked: 0
@@ -1460,8 +1460,8 @@ Transform:
   m_GameObject: {fileID: 1951906165}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.63, y: 9.25, z: 0}
-  m_LocalScale: {x: 2.375, y: 0.86007816, z: 1}
+  m_LocalPosition: {x: -0.6, y: 9.2, z: 0}
+  m_LocalScale: {x: 1.30435, y: 0.86007816, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 938638595}
@@ -1508,7 +1508,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1574,7 +1574,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

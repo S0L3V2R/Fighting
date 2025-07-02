@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
     }
 
     private void bam() {
-        Debug.Log("kek");
+        //Debug.Log("kek");
     }
 
 
@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
         {
             if (actionAllowed == true && input.a > 0)
             {
-                Debug.Log("bang");
+                //Debug.Log("bang");
                 currentAction = input;
                 StartCoroutine(windupAction(input.a));
             }
@@ -169,8 +169,8 @@ public class Player : MonoBehaviour
         }
         
 
-        Debug.Log(axisX + 1000);
-        Debug.Log(axisY + 2000);
+        //Debug.Log(axisX + 1000);
+        //Debug.Log(axisY + 2000);
 
         return inputs;
     }
@@ -185,7 +185,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("kekw");
+        //Debug.Log("kekw");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -210,7 +210,7 @@ public class Player : MonoBehaviour
         {
             whichAxisLocked = -1;
         }
-        Debug.Log("workin");
+        //Debug.Log("workin");
     }
 
     private void OnTriggerExit2D(Collider2D collision)
