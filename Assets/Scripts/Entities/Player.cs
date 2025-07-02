@@ -8,10 +8,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallSpeedDelta;
+    [SerializeField] private float flyTriggerDelta;
     [SerializeField] private float sideOfSight;
     [SerializeField] private float collisionDelta;
     [SerializeField] private float whichAxisLocked;
     [SerializeField] private float leftArenaBorder, rightArenaBorder;
+
+    [SerializeField] private GameObject enemySkybox;
 
     [SerializeField] private LayerMask movementLayer;
 
@@ -134,7 +137,7 @@ public class Player : MonoBehaviour
     private void switchSideCheck()
     {
         if (transform.position.x < enemy.transform.position.x) { sideOfSight = 1; }
-        else { sideOfSight = 0; }
+        else { sideOfSight = -1; }
     }
 
 
@@ -183,6 +186,19 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("kekw");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject == enemySkybox)
+        {
+            transform.position = new Vector3(transform.position.x - sideOfSight * flyTriggerDelta,
+                transform.position.y,
+                transform.position.z);
+            enemy.transform.position = new Vector3(enemy.transform.position.x + sideOfSight * flyTriggerDelta,
+                enemy.transform.position.y,
+                enemy.transform.position.z);
+        }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
