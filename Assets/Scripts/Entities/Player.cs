@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject enemySkybox;
 
+    [SerializeField] private Battle_System bs;
+
     [SerializeField] private LayerMask movementLayer;
 
     [SerializeField] private bool isGrounded;
@@ -26,6 +28,7 @@ public class Player : MonoBehaviour
     
 
     private Rigidbody2D rb;
+    
 
     private float axisX, axisY;
 
@@ -88,11 +91,16 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        bs = GetComponent<Battle_System>();
         whichAxisLocked = 0;
     }
 
     private void FixedUpdate()
     {
+        if (bs.actionAllowed != null)
+        {
+            isStunned = !bs.actionAllowed;
+        }
 
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y);
 
@@ -121,16 +129,6 @@ public class Player : MonoBehaviour
         }
 
         //Debug.Log(inputs.Count+100);
-
-        foreach (var input in inputs)
-        {
-            if (actionAllowed == true && input.a > 0)
-            {
-                //Debug.Log("bang");
-                currentAction = input;
-                StartCoroutine(windupAction(input.a));
-            }
-        }
     }
 
     private void LateUpdate()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Battle_System : MonoBehaviour
 {
-    [SerializeField] private bool actionAllowed;
+    [SerializeField] public bool actionAllowed;
 
     [SerializeField] private int whichPlayer;
 
