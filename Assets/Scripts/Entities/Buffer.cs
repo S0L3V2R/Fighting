@@ -12,7 +12,7 @@ public class Buffer : MonoBehaviour
     [SerializeField] private int idle_timer = 0;
     private List<string> moves = new List<string>() { 
         // moves should be read from the txt file
-        "6246P", "626S", "24K", "26H", "P", "K", "S", "H", "G"
+        "6246P", "626S", "24K", "26H", "6H", "P", "K", "S", "H", "G"
     };
     private void Read()
     {
