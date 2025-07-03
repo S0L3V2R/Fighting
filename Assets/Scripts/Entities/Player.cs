@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameObject enemySkybox;
 
+    [SerializeField] private Battle_System bs;
+
     [SerializeField] private LayerMask movementLayer;
 
     [SerializeField] private bool isGrounded;
@@ -26,11 +28,17 @@ public class Player : MonoBehaviour
     
 
     private Rigidbody2D rb;
+    
 
     private float axisX, axisY;
 
 
     [SerializeField] bool actionAllowed = true;
+
+    [SerializeField] public bool isStunned = false;
+
+    [SerializeField] public List<string> controls;
+    
     
     
     public struct action
@@ -83,13 +91,23 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        bs = GetComponent<Battle_System>();
         whichAxisLocked = 0;
     }
 
     private void FixedUpdate()
     {
+        if (bs.actionAllowed != null)
+        {
+            isStunned = !bs.actionAllowed;
+        }
+
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y);
-        inputs = GetInputs();
+
+        if (isStunned == false)
+        {
+            inputs = GetInputs();
+        }
 
         if (whichAxisLocked == 1 && axisX > 0) { axisX = 0; }
         if (whichAxisLocked == -1 && axisX < 0) { axisX = 0; }
@@ -103,29 +121,19 @@ public class Player : MonoBehaviour
         switchSideCheck();
         if (sideOfSight == 1)
         {
-            transform.eulerAngles = new Vector3(0, 0, 0);
+            transform.eulerAngles = new Vector3(0, -180, 0);
         }
         else
         {
-            transform.eulerAngles = new Vector3(0, -180, 0);
+            transform.eulerAngles = new Vector3(0, 0, 0);
         }
 
-        Debug.Log(inputs.Count+100);
-
-        foreach (var input in inputs)
-        {
-            if (actionAllowed == true && input.a > 0)
-            {
-                //Debug.Log("bang");
-                currentAction = input;
-                StartCoroutine(windupAction(input.a));
-            }
-        }
+        //Debug.Log(inputs.Count+100);
     }
 
     private void LateUpdate()
     {
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftArenaBorder, rightArenaBorder), Mathf.Clamp(transform.position.y, 0, 10000), transform.position.z);  
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftArenaBorder, rightArenaBorder), Mathf.Clamp(transform.position.y, 0, 10000), transform.position.z);
     }
 
     private bool isGroundedCheck()
@@ -148,8 +156,8 @@ public class Player : MonoBehaviour
 
     private List<action> GetInputs()
     {
-        axisX = Input.GetAxisRaw("Horizontal");
-        axisY = Input.GetAxisRaw("Vertical");
+        axisX = Input.GetAxisRaw(controls[0]);
+        axisY = Input.GetAxisRaw(controls[1]);
         isGrounded = isGroundedCheck();
 
         List<action> inputs = new List<action>();
@@ -202,15 +210,7 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (sideOfSight == 1)
-        {
-            whichAxisLocked = 1;
-        }
-        else
-        {
-            whichAxisLocked = -1;
-        }
-        //Debug.Log("workin");
+        whichAxisLocked = sideOfSight;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
