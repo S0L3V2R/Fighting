@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallSpeedDelta;
     [SerializeField] private float flyTriggerDelta;
-    [SerializeField] private float sideOfSight;
+    [SerializeField] public float sideOfSight;
     [SerializeField] private float collisionDelta;
     [SerializeField] private float whichAxisLocked;
     [SerializeField] private float leftArenaBorder, rightArenaBorder;
