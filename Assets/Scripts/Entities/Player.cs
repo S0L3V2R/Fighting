@@ -110,6 +110,12 @@ public class Player : MonoBehaviour
         {
             inputs = GetInputs();
         }
+        else
+        {
+            isGrounded = false;
+        }
+
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y);
 
         if (whichAxisLocked == 1 && axisX > 0) { axisX = 0; }
         if (whichAxisLocked == -1 && axisX < 0) { axisX = 0; }
@@ -150,40 +156,6 @@ public class Player : MonoBehaviour
         else { sideOfSight = -1; }
     }
 
-
-    private void flyTriggerCheck()
-    {
-
-    }
-
-    private List<action> GetInputs()
-    {
-        axisX = Input.GetAxisRaw(controls[0]);
-        axisY = Input.GetAxisRaw(controls[1]);
-        isGrounded = isGroundedCheck();
-
-        List<action> inputs = new List<action>();
-
-
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            inputs.Add(punch);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            inputs.Add(moveBackward);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            inputs.Add(punch);
-        }
-        
-
-        //Debug.Log(axisX + 1000);
-        //Debug.Log(axisY + 2000);
-
-        return inputs;
-    }
 
     private void Jump()
     {

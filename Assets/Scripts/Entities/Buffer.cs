@@ -8,7 +8,9 @@ public class Buffer : MonoBehaviour
     [SerializeField] Player player;
     // Start is called before the first frame update
     [SerializeField] private string cur;
-    [SerializeField] public int move_number;
+    [SerializeField] private List<int> normal_penalty = new List<int>() { -1, -1, -1, -1, -1 };
+    [SerializeField] private List<int> special_penalty = new List<int>() { -1, -1, -1, -1, -1 };
+    [SerializeField] public int move_number = -1;
     [SerializeField] private int idle_timer = 0;
     private List<string> moves = new List<string>() { 
         // moves should be read from the txt file
@@ -89,8 +91,10 @@ public class Buffer : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    { 
+    {
         Read();
+        int cnt_normals = 0;
+        move_number = -1;
         if (idle_timer > 30)
         {
             cur = "";
@@ -102,6 +106,21 @@ public class Buffer : MonoBehaviour
         if (cur.EndsWith('P') || cur.EndsWith('K') || cur.EndsWith('S') || cur.EndsWith('H') || cur.EndsWith('G'))
         {
             int i = 0;
+            if (cur.Length == 1)
+            {
+                if (player.isGrounded == false)
+                {
+                    cur = '8' + cur;
+                }
+                else if (player.state == 1)
+                {
+                    cur = '6' + cur;
+                }
+                else if (player.state == 3 || player.state == 5)
+                {
+                    cur = '2' + cur;
+                }
+            }
             foreach (string s in moves)
             {
                 if (cur.EndsWith(s))
@@ -109,6 +128,43 @@ public class Buffer : MonoBehaviour
                     Debug.Log(s);
                     move_number = i;
                     //DO THE MOVE HERE
+
+
+                    //PENALTY TRACKERS
+                    if (s.Length < 3)
+                    {
+                        cnt_normals++;
+                        for (int j = 0; j < 4; j++)
+                        {
+                            normal_penalty[j] = normal_penalty[j + 1];
+                        }
+                        normal_penalty[4] = i;
+                    } else
+                    {
+                        while (cnt_normals > 3)
+                        {
+                            for (int j = 0; j < 4; j++)
+                            {
+                                special_penalty[j] = special_penalty[j + 1];
+                            }
+                            special_penalty[4] = -1;
+                            cnt_normals -= 3;
+                        }
+                        cnt_normals = 0;
+                        for (int j = 0; j < 4; j++)
+                        {
+                            special_penalty[j] = special_penalty[j + 1];
+                        }
+                        special_penalty[4] = i;
+                        for (int k = 0; k < 3; k++)
+                        {
+                            for (int j = 0; j < 4; j++)
+                            {
+                                normal_penalty[j] = normal_penalty[j + 1];
+                            }
+                            normal_penalty[4] = -1;
+                        }
+                    }
                     cur = "";
                     break;
                 }
