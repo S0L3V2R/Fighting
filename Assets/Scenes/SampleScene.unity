@@ -1266,6 +1266,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &1630253413 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7288650693873165622, guid: ba53d626a47bdb340bcb5b5e9168f184, type: 3}
+  m_PrefabInstance: {fileID: 1492398791331240662}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1732935925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,6 +1404,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8569684829134397340, guid: ba53d626a47bdb340bcb5b5e9168f184, type: 3}
   m_PrefabInstance: {fileID: 1492398791331240662}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2116347960 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 832991286788962622, guid: ba53d626a47bdb340bcb5b5e9168f184, type: 3}
+  m_PrefabInstance: {fileID: 1492398791331240662}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630253413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6722a3242a674c14eaaece094c96eaa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2116347962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630253413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b13eaa8dbdbc1c4caeb05d734424a8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2116347960}
+  cur: 
+  move_number: 0
+  idle_timer: 0
 --- !u!1 &132615369432644160 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 643308465043442023, guid: 97b76df357262cf47958dfd88e3228e9, type: 3}
@@ -1477,6 +1509,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7194852893856120763}
     - target: {fileID: 832991286788962622, guid: ba53d626a47bdb340bcb5b5e9168f184, type: 3}
+      propertyPath: isStunned
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 832991286788962622, guid: ba53d626a47bdb340bcb5b5e9168f184, type: 3}
       propertyPath: enemySkybox
       value: 
       objectReference: {fileID: 132615369432644160}
@@ -1530,7 +1566,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8569684829134397340, guid: ba53d626a47bdb340bcb5b5e9168f184, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1028599815}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7288650693873165622, guid: ba53d626a47bdb340bcb5b5e9168f184, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2116347962}
   m_SourcePrefab: {fileID: 100100000, guid: ba53d626a47bdb340bcb5b5e9168f184, type: 3}
 --- !u!4 &3666930267806354577 stripped
 Transform:
