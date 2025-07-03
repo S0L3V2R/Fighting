@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Buffer : MonoBehaviour
@@ -7,6 +8,7 @@ public class Buffer : MonoBehaviour
     [SerializeField] Player player;
     // Start is called before the first frame update
     [SerializeField] private string cur;
+    [SerializeField] public int move_number;
     [SerializeField] private int idle_timer = 0;
     private List<string> moves = new List<string>() { 
         // moves should be read from the txt file
@@ -44,7 +46,7 @@ public class Buffer : MonoBehaviour
             idle_timer = 0;
             cur += '8';
         }
-        else if (Input.GetKeyDown(KeyCode.J))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             idle_timer = 0;
             cur += '2';
@@ -87,22 +89,30 @@ public class Buffer : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {
+    { 
         Read();
-        if (idle_timer > 15)
+        if (idle_timer > 30)
         {
             cur = "";
         }
+        if (cur.Length > 5)
+        {
+            cur = cur.Substring(1);
+        }
         if (cur.EndsWith('P') || cur.EndsWith('K') || cur.EndsWith('S') || cur.EndsWith('H') || cur.EndsWith('G'))
         {
+            int i = 0;
             foreach (string s in moves)
             {
                 if (cur.EndsWith(s))
                 {
                     Debug.Log(s);
+                    move_number = i;
+                    //DO THE MOVE HERE
                     cur = "";
                     break;
                 }
+                i++;
             }
         }
 

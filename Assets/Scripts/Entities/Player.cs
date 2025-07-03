@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject enemySkybox;
 
     [SerializeField] private Battle_System bs;
+    [SerializeField] private Buffer buf;
 
     [SerializeField] private LayerMask movementLayer;
 
@@ -92,6 +93,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         bs = GetComponent<Battle_System>();
+        buf = GetComponent<Buffer>();
         whichAxisLocked = 0;
     }
 
